@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
     {
         // Perform string tokenization to get the command and argument
         {
+            // TODO/NOTE: There's a seg fault when nothing is written and return is pressed.
+
             // Get buffer length
             int len = strlen(buffer);
             if (!len) continue;
@@ -66,6 +68,17 @@ int main(int argc, char *argv[])
         if (strcmp(command, "cd") == 0)
         {
             // your code here
+        }
+        else if (strcmp(command, "clr") == 0)
+        {
+            printf("\033c");
+        }
+        else if (strcmp (command, "pause") == 0)
+        {
+            /*printf("Press ENTER to continue . . .");
+            while (getchar() != '\n') 
+                sleep(10);
+            printf("Ready");*/
         }
         else if (strcmp(command, "help") == 0) 
         {
