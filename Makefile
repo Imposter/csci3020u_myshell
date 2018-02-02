@@ -8,7 +8,11 @@ BIN = myshell
 .PHONY: clean help
 
 myshell: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $@ 
+ifeq ($(OS),Windows_NT)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $@.exe
+else
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $@	
+endif
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< 
@@ -16,7 +20,11 @@ myshell: $(OBJECTS)
 all : $(BIN)
 
 clean:
+ifeq ($(OS),Windows_NT)
+	rm -f $(OBJECTS) $(BIN).exe *~
+else
 	rm -f $(OBJECTS) $(BIN) *~
+endif
 
 help:
 	@echo "Valid targets:"

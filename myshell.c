@@ -5,8 +5,11 @@
  * All rights reserved.
  * 
  */
+ 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <ctype.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/types.h>
@@ -35,15 +38,30 @@ int main(int argc, char *argv[])
     {
         // Perform string tokenization to get the command and argument
         {
-            // TODO/NOTE: There's a seg fault when nothing is written and return is pressed.
-
-            // Get buffer length
-            int len = strlen(buffer);
-            if (!len) continue;
-
             // Clear buffers
             memset(command, 0, BUFFER_LEN);
             memset(arg, 0, BUFFER_LEN);
+
+            // Get buffer length
+            int len = strlen(buffer);
+
+            // Check if the entire string is just whitespace
+            bool is_whitespace = true;
+            for (int i = 0; i < len; i++) 
+            {
+                if (!isspace(buffer[i]))
+                {
+                    is_whitespace = false;
+                    break;
+                }
+            }
+
+            // If it is, then we don't need to handle it
+            if (is_whitespace)
+                continue;
+
+            // Replace newline with null terminator
+            buffer[len - 1] = '\0';
 
             // Copy command
             const char *ptr = strtok(buffer, " \n");
@@ -51,21 +69,19 @@ int main(int argc, char *argv[])
             strncpy(command, ptr, len);
 
             // Copy arg if any
-            if ((ptr = strtok(NULL, " \n")) != NULL) 
+            if ((ptr = strtok(NULL, "\n")) != NULL) 
             {
                 len = strlen(ptr);
                 strncpy(arg, ptr, len);
             }
-
-#if 0
-            printf("command: %s\r\n", command);
-            printf("arg: %s\r\n", arg);
-#endif
         }
 
         // Check the command and execute the operations for each command
-        // cd command -- change the current directory
-        if (strcmp(command, "cd") == 0)
+        if (strcmp(command, "echo") == 0) 
+        {
+            printf("%s\r\n", arg);
+        } 
+        else if (strcmp(command, "cd") == 0)
         {
             // your code here
         }
@@ -75,10 +91,16 @@ int main(int argc, char *argv[])
         }
         else if (strcmp (command, "pause") == 0)
         {
-            /*printf("Press ENTER to continue . . .");
-            while (getchar() != '\n') 
-                sleep(10);
-            printf("Ready");*/
+            printf("Press ENTER to continue . . .");
+
+            // TODO: ...
+            // Keep reading characters until a newline is received
+            //char c; 
+            //do 
+            //{
+            //    fgets(&c, sizeof(char), stdin);
+            //} while (c != '\n');
+            //printf("Ready\r\n");
         }
         else if (strcmp(command, "help") == 0) 
         {
