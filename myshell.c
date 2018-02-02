@@ -1,7 +1,7 @@
 /*
  * MyShell Project for SOFE 3950U / CSCI 3020U: Operating Systems
  *
- * Copyright (C) 2017, <GROUP MEMBERS>
+ * Copyright (C) 2018 Rishabh Patel, Eyaz Rehman
  * All rights reserved.
  * 
  */
@@ -44,12 +44,12 @@ int main(int argc, char *argv[])
             memset(arg, 0, BUFFER_LEN);
 
             // Copy command
-            const char *ptr = strtok(buffer, " ");
+            const char *ptr = strtok(buffer, " \n");
             len = strlen(ptr);
             strncpy(command, ptr, len);
 
             // Copy arg if any
-            if ((ptr = strtok(NULL, " ")) != NULL) 
+            if ((ptr = strtok(NULL, " \n")) != NULL) 
             {
                 len = strlen(ptr);
                 strncpy(arg, ptr, len);
@@ -67,19 +67,27 @@ int main(int argc, char *argv[])
         {
             // your code here
         }
+        else if (strcmp(command, "help") == 0) 
+        {
+            FILE *file = fopen("README.md", "r");
+            if (file == NULL) 
+            {
+                fputs("README.md not found!\r\n", stderr);
+                continue;
+            }
 
-        // other commands here...
-        
-        // quit command -- exit the shell
+            char file_buffer[BUFFER_LEN];
+            while (fread(file_buffer, sizeof(char), BUFFER_LEN - 1, file) > 0)
+                printf(file_buffer);
+            printf("\r\n");
+        }
         else if (strcmp(command, "quit") == 0)
         {
             return EXIT_SUCCESS;
         }
-
-        // Unsupported command
         else
         {
-            fputs("Unsupported command, use help to display the manual\n", stderr);
+            fputs("Unsupported command, use help to display the manual\r\n", stderr);
         }
     }
     return EXIT_SUCCESS;
