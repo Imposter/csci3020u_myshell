@@ -5,8 +5,20 @@ A shell/command line interpreter for users. This shell will have internal comman
 cd <directory>:
     changes the current directory file to the directory provided by the user. If the directory is not present report to current directory. If a directory is not present an error should be reported.
 
-clr:
+echo:
+    echos the message provided by the user
+
+dir <directory> or ls:
+    lists all the files in the current directory
+
+environ or env:
+    prints all global environment variables
+
+clr or cls:
     clears the screen.
+
+pause:
+    holts the program until enter is pressed
 
 help: 
     displays shell commands.
