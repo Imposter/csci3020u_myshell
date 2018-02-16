@@ -238,10 +238,10 @@ int main(int argc, char *argv[])
         }
         else if (strcmp(command, "help") == 0) 
         {
-            FILE *file = fopen("README.md", "r");
+            FILE *file = fopen("readme", "r");
             if (file == NULL) 
             {
-                fputs("README.md not found!\r\n", stderr);
+                fputs("readme not found!\r\n", stderr);
                 continue;
             }
 
