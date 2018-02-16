@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -g
 LFLAGS = 
 LIBS = -lm
@@ -8,11 +8,7 @@ BIN = myshell
 .PHONY: clean help
 
 myshell: $(OBJECTS)
-ifeq ($(OS),Windows_NT)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $@.exe
-else
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $@	
-endif
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $@
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< 
@@ -20,11 +16,7 @@ endif
 all : $(BIN)
 
 clean:
-ifeq ($(OS),Windows_NT)
-	rm -f $(OBJECTS) $(BIN).exe *~
-else
 	rm -f $(OBJECTS) $(BIN) *~
-endif
 
 help:
 	@echo "Valid targets:"
