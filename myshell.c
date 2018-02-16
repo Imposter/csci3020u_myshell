@@ -195,7 +195,11 @@ int main(int argc, char *argv[])
         else if (strcmp(command, "dir") == 0 || strcmp(command, "ls") == 0) 
         {
             // Print out data from the current working directory
-            DIR *directory = opendir(current_path);
+            char *directory_path = current_path;
+            if (strlen(arg) > 0)
+                directory_path = arg;
+
+            DIR *directory = opendir(directory_path);
             struct dirent *directory_entry;
             while ((directory_entry = readdir(directory)) != NULL) 
             {
@@ -234,10 +238,10 @@ int main(int argc, char *argv[])
         }
         else if (strcmp(command, "help") == 0) 
         {
-            FILE *file = fopen("README.md", "r");
+            FILE *file = fopen("readme", "r");
             if (file == NULL) 
             {
-                fputs("README.md not found!\r\n", stderr);
+                fputs("readme not found!\r\n", stderr);
                 continue;
             }
 
